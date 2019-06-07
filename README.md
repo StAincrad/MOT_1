@@ -1,2 +1,3 @@
 # MOT_1
-Práctica del Pong
+This is a Pong practising with educational purposes. 
+It is a practising for College.
