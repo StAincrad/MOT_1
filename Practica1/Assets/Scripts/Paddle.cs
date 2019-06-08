@@ -21,6 +21,7 @@ public class Paddle : MonoBehaviour {
         width = size.x;
         height = size.y;
     }
+
     void Update()
     {
         if (Input.GetKey(up) && GetComponent<Renderer>().bounds.max.y < limY)

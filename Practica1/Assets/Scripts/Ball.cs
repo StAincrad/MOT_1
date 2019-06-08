@@ -7,10 +7,10 @@ public class Ball : MonoBehaviour {
     //Variables privadas
     private Vector3 movement;
     private Vector3 startPosition;
-    private Vector3 size;
     private float width, height;
+    private Vector3 size;
     private GameManager gm;
-
+    
     void Start()
     {
         movement = Vector3.zero;
@@ -25,7 +25,9 @@ public class Ball : MonoBehaviour {
 
     void LateUpdate()
     {
+       
 
+        //Controla las colisiones laterales
         if (transform.position.x > GameManager.anchoMundo / 2 || transform.position.x < -GameManager.anchoMundo / 2)
         {
             Reset();
@@ -33,6 +35,7 @@ public class Ball : MonoBehaviour {
             movement.y = Random.Range(-2.0f, 2.0f)*Time.deltaTime;
         }
 
+        //Controla la colisión con el techo
         if (GetComponent<Renderer>().bounds.max.y > GameManager.altoMundo / 2 || GetComponent<Renderer>().bounds.min.y < -GameManager.altoMundo / 2)
         {
             movement.y = -movement.y;
@@ -41,6 +44,9 @@ public class Ball : MonoBehaviour {
         transform.Translate(movement);
     }
 
+    /// <summary>
+    /// Resetea la posición y velocidad de la bola
+    /// </summary>
     public void Reset()
     {
         transform.position = startPosition;
@@ -48,13 +54,30 @@ public class Ball : MonoBehaviour {
         movement.y = 0;
     }
 
+    /// <summary>
+    /// Devuelve el ancho de la bola
+    /// </summary>
     public float Width()
     {
         return width;
     }
 
+    /// <summary>
+    /// Devuelve el alto de la bola
+    /// </summary>
     public float Height()
     {
         return height;
+    }
+
+    /// <summary>
+    /// Moverá la bola en una dirección
+    /// </summary>
+    /// <param name="move">
+    /// Dirección hacia la que se moverá la bola
+    /// </param>
+    public void Movement(Vector3 move)
+    {
+        movement = move;
     }
 }
