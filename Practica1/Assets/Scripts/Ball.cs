@@ -14,7 +14,6 @@ public class Ball : MonoBehaviour {
     {
         movement = Vector3.zero;
         startPosition = gameObject.transform.position;
-
         size = GetComponent<Collider>().bounds.size;
         width = size.x;
         height = size.y;
@@ -22,7 +21,7 @@ public class Ball : MonoBehaviour {
 
     void LateUpdate()
     {
-        transform.Translate(movement*Time.deltaTime);
+        transform.Translate(movement * Time.deltaTime);
     }
 
     /// <summary>
@@ -31,8 +30,7 @@ public class Ball : MonoBehaviour {
     public void Reset()
     {
         transform.position = startPosition;
-        movement.x = 0;
-        movement.y = 0;
+        movement = Vector3.zero;
     }
 
     /// <summary>

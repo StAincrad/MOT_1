@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
     public Text enterToStart;
 
     //Variables privadas
-    int playerLScore, playerRScore;
+    private int playerLScore, playerRScore;
     private Ball ball;
     private Vector3 movementBall;
 
@@ -50,20 +50,16 @@ public class GameManager : MonoBehaviour {
                     break;
                 case State.serve:
                     gameState = State.play;
-                    marcadorL.gameObject.SetActive(false);
-                    marcadorR.gameObject.SetActive(false);
-                    enterToStart.gameObject.SetActive(false);
+                    ActivePanels(false);
 
-                    if (servingPlayer == Player.left)
+                    if (servingPlayer.Equals(Player.left))
                     {
-                        movementBall.x = Random.Range(-3.0f, -1.0f);
-                        movementBall.y = Random.Range(-3.0f, 3.0f);
+                        movementBall = new Vector3(Random.Range(-3.0f, -1.0f), Random.Range(-3.0f, 3.0f));
                         ball.NewMovement(movementBall);
                     }
-                    else if (servingPlayer == Player.right)
+                    else if (servingPlayer.Equals(Player.right))
                     {
-                        movementBall.x = Random.Range(1.0f, 3.0f);
-                        movementBall.y = Random.Range(-3.0f, 3.0f);
+                        movementBall = new Vector3(Random.Range(1.0f, 3.0f),Random.Range(-3.0f, 3.0f));
                         ball.NewMovement(movementBall);
                     }
                     break;
@@ -76,33 +72,43 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        //Controla el final del partido
-        if (playerLScore == 10)
-        {
-            gameState = State.done;
-            winningPlayer = Player.left;
-            servingPlayer = OppositePlayer(winningPlayer);
+        if (playerRScore.Equals(10) || playerLScore.Equals(10))
+            WhoWin();
+    }
+    
+    /// <summary>
+    /// Show who is the winner and loser
+    /// </summary>
+    private void WhoWin()
+    {
+        gameState = State.done;
+        ActivePanels(true);
 
-            marcadorL.gameObject.SetActive(true);
-            marcadorR.gameObject.SetActive(true);
-            enterToStart.gameObject.SetActive(true);
+        if (playerLScore.Equals(10))
+        {
+            winningPlayer = Player.left;
             marcadorL.text = "Ganador";
             marcadorR.text = "Perdedor";
         }
-        else if (playerRScore == 10)
+        else
         {
-            gameState = State.done;
             winningPlayer = Player.right;
-            servingPlayer = OppositePlayer(winningPlayer);
-
-            marcadorL.gameObject.SetActive(true);
-            marcadorR.gameObject.SetActive(true);
-            enterToStart.gameObject.SetActive(true);
             marcadorL.text = "Perdedor";
             marcadorR.text = "Ganador";
         }
+        servingPlayer = OppositePlayer(winningPlayer);
     }
-    
+    /// <summary>
+    /// Activate or deactive infomation panels
+    /// </summary>
+    /// <param name="status">True for activate false otherwise</param>
+    private void ActivePanels(bool status)
+    {
+        marcadorL.gameObject.SetActive(status);
+        marcadorR.gameObject.SetActive(status);
+        enterToStart.gameObject.SetActive(status);
+    }
+
     /// <summary>
     /// Sirve para saber en qué lado ha chocado la pelota
     /// para saber quién servirá en el siguiente saque y para
@@ -131,17 +137,10 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Sirve para saber quién servirá después de acabar un partido
+    /// Determinate who will serve
     /// </summary>
     private Player OppositePlayer(Player winningPlayer)
     {
-        if (winningPlayer == Player.left)
-        {
-            return Player.right;
-        }
-        else
-        {
-            return Player.left;
-        }
+        return winningPlayer.Equals(Player.left) ? Player.left : Player.right;
     }
 }

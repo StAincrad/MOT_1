@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Paddle : MonoBehaviour {
-
+public class Paddle : MonoBehaviour
+{
     //Variables públicas
     public KeyCode up, down; //Controles de las palas
     public float speed; //Velocidad de las palas
 
     //Variables privadas
-    float limY;
-    float width, height;
-    Vector3 size;
+    private float limY;
+    private float width, height;
+    private Vector3 size;
 
     void Start()
     {
         limY = GameManager.altoMundo / 2;
-
         size = GetComponent<Collider>().bounds.size;
         width = size.x;
         height = size.y;
