@@ -24,11 +24,11 @@ public class Paddle : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKey(up) && GetComponent<Renderer>().bounds.max.y < limY)
+        if (Input.GetKey(up) && transform.position.y + height/2 < limY)
         {
             transform.Translate(0, speed * Time.deltaTime, 0);
         }
-        else if (Input.GetKey(down) && GetComponent<Renderer>().bounds.min.y > -limY)
+        else if (Input.GetKey(down) && transform.position.y - height/2 > -limY)
         {
             transform.Translate(0, -speed * Time.deltaTime, 0);
         }
